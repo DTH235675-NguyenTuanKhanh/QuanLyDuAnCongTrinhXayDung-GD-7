@@ -32,6 +32,7 @@
             btnKhachHang = new Button();
             btnLoaiDA = new Button();
             btnCongViec = new Button();
+            btnBangLuong = new Button();
             SuspendLayout();
             // 
             // NhanVien
@@ -74,11 +75,22 @@
             btnCongViec.UseVisualStyleBackColor = true;
             btnCongViec.Click += btnCongViec_Click;
             // 
+            // btnBangLuong
+            // 
+            btnBangLuong.Location = new Point(91, 123);
+            btnBangLuong.Name = "btnBangLuong";
+            btnBangLuong.Size = new Size(94, 29);
+            btnBangLuong.TabIndex = 4;
+            btnBangLuong.Text = "Bảng lương";
+            btnBangLuong.UseVisualStyleBackColor = true;
+            btnBangLuong.Click += btnBangLuong_Click;
+            // 
             // DangNhap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnBangLuong);
             Controls.Add(btnCongViec);
             Controls.Add(btnLoaiDA);
             Controls.Add(btnKhachHang);
@@ -95,5 +107,6 @@
         private Button btnKhachHang;
         private Button btnLoaiDA;
         private Button btnCongViec;
+        private Button btnBangLuong;
     }
 }

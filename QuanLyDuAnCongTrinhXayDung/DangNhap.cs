@@ -37,5 +37,11 @@ namespace QuanLyDuAnCongTrinhXayDung
             frmCongViec f4 = new frmCongViec();
             f4.Show();
         }
+
+        private void btnBangLuong_Click(object sender, EventArgs e)
+        {
+            frmBangLuong f5 = new frmBangLuong();
+            f5.Show();
+        }
     }
 }
