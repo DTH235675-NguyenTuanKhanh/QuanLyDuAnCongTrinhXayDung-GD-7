@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -114,6 +115,116 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel công việc";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua dòng tiêu đề
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            string tenCV = row.Cell(1).Value.ToString(); // Giả sử cột 1 là tên công việc
+
+                            if (!string.IsNullOrWhiteSpace(tenCV))
+                            {
+                                CongViec cv = new CongViec { TenCongViec = tenCV };
+                                context.CongViec.Add(cv);
+                                count++;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} công việc.", "Thành công");
+                        frmCongViec_Load(sender, e); // Load lại bảng của ný
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách công việc ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "DanhSachCongViec_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Tên Công Việc", typeof(string));
+
+                    // Lấy dữ liệu từ bảng CongViec
+                    var danhSach = context.CongViec.Select(c => new
+                    {
+                        c.ID,
+                        c.TenCongViec
+                    }).ToList();
+
+                    foreach (var c in danhSach)
+                    {
+                        table.Rows.Add(c.ID, c.TenCongViec);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "CongViec");
+                        sheet.Columns().AdjustToContents();
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất dữ liệu công việc thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên công việc cần tìm:", "Tìm kiếm", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                // Lấy danh sách từ CSDL
+                var dsGoc = context.CongViec.ToList();
+
+                // Lọc theo từ khóa
+                var ketQua = dsGoc.Where(x => x.TenCongViec.ToLower().Contains(input.ToLower())).ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy công việc nào khớp với từ khóa!", "Thông báo");
+                    dataGridView.DataSource = dsGoc;
+                }
+            }
+            else
+            {
+                frmCongViec_Load(sender, e); // Hiển thị lại tất cả
+            }
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             numDonGia = new NumericUpDown();
             btnDoiAnh = new Button();
@@ -55,7 +56,8 @@
             colTenVatTu = new DataGridViewTextBoxColumn();
             colDonViTinh = new DataGridViewTextBoxColumn();
             colDonGia = new DataGridViewTextBoxColumn();
-            colHinhAnh = new DataGridViewImageColumn();
+            HinhAnh = new DataGridViewImageColumn();
+            danhSachVatTuBindingSource = new BindingSource(components);
             vatTuBindingSource = new BindingSource(components);
             phanPhoiChiTietBindingSource = new BindingSource(components);
             phanPhoiBindingSource = new BindingSource(components);
@@ -66,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)ptbHinhAnh).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)danhSachVatTuBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)vatTuBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)phanPhoiChiTietBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)phanPhoiBindingSource).BeginInit();
@@ -156,6 +159,7 @@
             btnNhap.TabIndex = 23;
             btnNhap.Text = "Nhập Excel";
             btnNhap.UseVisualStyleBackColor = false;
+            btnNhap.Click += btnNhap_Click;
             // 
             // btnXuat
             // 
@@ -167,6 +171,7 @@
             btnXuat.TabIndex = 22;
             btnXuat.Text = "Xuất Excel";
             btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnThoat
             // 
@@ -190,6 +195,7 @@
             btnTimKiem.TabIndex = 20;
             btnTimKiem.Text = "Tìm Kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += btnTimKiem_Click;
             // 
             // btnHuyBo
             // 
@@ -300,57 +306,86 @@
             // 
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { colID, colTenVatTu, colDonViTinh, colDonGia, colHinhAnh });
-            dataGridView.DataSource = vatTuBindingSource;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { colID, colTenVatTu, colDonViTinh, colDonGia, HinhAnh });
+            dataGridView.DataSource = danhSachVatTuBindingSource;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(1167, 382);
             dataGridView.TabIndex = 0;
+            dataGridView.CellFormatting += dataGridView_CellFormatting;
             // 
             // colID
             // 
+            colID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colID.DataPropertyName = "ID";
+            colID.Frozen = true;
             colID.HeaderText = "ID";
             colID.MinimumWidth = 6;
             colID.Name = "colID";
+            colID.Width = 223;
             // 
             // colTenVatTu
             // 
+            colTenVatTu.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colTenVatTu.DataPropertyName = "TenVatTu";
+            colTenVatTu.Frozen = true;
             colTenVatTu.HeaderText = "Tên Vật tư";
             colTenVatTu.MinimumWidth = 6;
             colTenVatTu.Name = "colTenVatTu";
+            colTenVatTu.Width = 223;
             // 
             // colDonViTinh
             // 
+            colDonViTinh.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colDonViTinh.DataPropertyName = "DonViTinh";
+            colDonViTinh.Frozen = true;
             colDonViTinh.HeaderText = "Đơn Vị Tính";
             colDonViTinh.MinimumWidth = 6;
             colDonViTinh.Name = "colDonViTinh";
+            colDonViTinh.Width = 222;
             // 
             // colDonGia
             // 
+            colDonGia.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colDonGia.DataPropertyName = "DonGia";
+            colDonGia.Frozen = true;
             colDonGia.HeaderText = "Đơn Giá";
             colDonGia.MinimumWidth = 6;
             colDonGia.Name = "colDonGia";
+            colDonGia.Width = 223;
             // 
-            // colHinhAnh
+            // HinhAnh
             // 
-            colHinhAnh.DataPropertyName = "HinhAnh";
-            colHinhAnh.HeaderText = "HinhAnh";
-            colHinhAnh.MinimumWidth = 6;
-            colHinhAnh.Name = "colHinhAnh";
+            HinhAnh.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            HinhAnh.DataPropertyName = "HinhAnh";
+            HinhAnh.Frozen = true;
+            HinhAnh.HeaderText = "HinhAnh";
+            HinhAnh.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            HinhAnh.MinimumWidth = 6;
+            HinhAnh.Name = "HinhAnh";
+            HinhAnh.Width = 223;
+            // 
+            // danhSachVatTuBindingSource
+            // 
+            danhSachVatTuBindingSource.DataSource = typeof(Data.DanhSachVatTu);
             // 
             // vatTuBindingSource
             // 
@@ -389,6 +424,7 @@
             ((System.ComponentModel.ISupportInitialize)ptbHinhAnh).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)danhSachVatTuBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)vatTuBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)phanPhoiChiTietBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)phanPhoiBindingSource).EndInit();
@@ -425,10 +461,11 @@
         private BindingSource vatTuBindingSource;
         private BindingSource phanPhoiBindingSource1;
         private NumericUpDown numDonGia;
+        private BindingSource danhSachVatTuBindingSource;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colTenVatTu;
         private DataGridViewTextBoxColumn colDonViTinh;
         private DataGridViewTextBoxColumn colDonGia;
-        private DataGridViewImageColumn colHinhAnh;
+        private DataGridViewImageColumn HinhAnh;
     }
 }

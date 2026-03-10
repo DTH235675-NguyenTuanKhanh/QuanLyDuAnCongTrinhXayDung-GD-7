@@ -90,6 +90,7 @@
             btnNhap.TabIndex = 32;
             btnNhap.Text = "Nhập Excel";
             btnNhap.UseVisualStyleBackColor = false;
+            btnNhap.Click += btnNhap_Click;
             // 
             // btnThoat
             // 
@@ -113,6 +114,7 @@
             btnXuat.TabIndex = 31;
             btnXuat.Text = "Xuất Excel";
             btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnTimKiem
             // 
@@ -266,8 +268,6 @@
             // loaiDuAnBindingSource
             // 
             loaiDuAnBindingSource.DataSource = typeof(Data.LoaiDuAn);
-            // 
-            // vatTuChiTietBindingSource
             // 
             // khoiTaoBindingSource
             // 

@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -252,6 +253,156 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách phân công ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "PhanCong_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Dự Án", typeof(string));
+                    table.Columns.Add("Nhân Viên", typeof(string));
+                    table.Columns.Add("Công Việc", typeof(string));
+                    table.Columns.Add("Vai Trò", typeof(string));
+                    table.Columns.Add("Phụ Cấp", typeof(decimal));
+                    table.Columns.Add("Bắt Đầu", typeof(DateTime));
+                    table.Columns.Add("Kết Thúc", typeof(DateTime));
+                    table.Columns.Add("% Hoàn Thành", typeof(int));
+
+                    var danhSach = context.PhanCong.Select(p => new
+                    {
+                        p.ID,
+                        TenDuAn = p.DuAn.TenDuAn,
+                        TenNV = p.NhanVien.HoVaTen,
+                        TenCV = p.CongViec.TenCongViec,
+                        p.VaiTro,
+                        PhuCap = p.PhuCap ?? 0,
+                        p.NgayBatDau,
+                        p.NgayKetThuc,
+                        p.PhanTramHoanThanh
+                    }).ToList();
+
+                    foreach (var p in danhSach)
+                    {
+                        table.Rows.Add(p.ID, p.TenDuAn, p.TenNV, p.TenCV, p.VaiTro, p.PhuCap, p.NgayBatDau, p.NgayKetThuc, p.PhanTramHoanThanh);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "PhanCong");
+                        sheet.Columns().AdjustToContents();
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất danh sách phân công thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel phân công";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1);
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            PhanCong pc = new PhanCong();
+
+                            // Tìm các ID từ Tên trong Excel
+                            string tenDA = row.Cell(1).Value.ToString();
+                            var da = context.DuAn.FirstOrDefault(d => d.TenDuAn == tenDA);
+
+                            string tenNV = row.Cell(2).Value.ToString();
+                            var nv = context.NhanVien.FirstOrDefault(n => n.HoVaTen == tenNV);
+
+                            string tenCV = row.Cell(3).Value.ToString();
+                            var cv = context.CongViec.FirstOrDefault(c => c.TenCongViec == tenCV);
+
+                            if (da != null && nv != null && cv != null)
+                            {
+                                pc.DuAnID = da.ID;
+                                pc.NhanVienID = nv.ID;
+                                pc.CongViecID = cv.ID;
+                                pc.VaiTro = row.Cell(4).Value.ToString();
+                                pc.PhuCap = decimal.Parse(row.Cell(5).Value.ToString());
+                                pc.NgayBatDau = DateTime.Parse(row.Cell(6).Value.ToString());
+                                pc.NgayKetThuc = DateTime.Parse(row.Cell(7).Value.ToString());
+                                pc.PhanTramHoanThanh = int.Parse(row.Cell(8).Value.ToString());
+
+                                context.PhanCong.Add(pc);
+                                count++;
+                            }
+                        }
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} bản ghi phân công.", "Thành công");
+                        frmPhanCong_Load(sender, e);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên nhân viên hoặc tên dự án cần tìm:", "Tìm kiếm phân công", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                var dsGoc = context.PhanCong.Select(p => new DanhSachPhanCong
+                {
+                    ID = p.ID,
+                    TenDuAn = p.DuAn.TenDuAn,
+                    TenNhanVien = p.NhanVien.HoVaTen,
+                    TenCongViec = p.CongViec.TenCongViec,
+                    VaiTro = p.VaiTro,
+                    PhuCap = p.PhuCap ?? 0,
+                    NgayBatDau = p.NgayBatDau,
+                    NgayKetThuc = p.NgayKetThuc,
+                    PhanTramHoanThanh = p.PhanTramHoanThanh
+                }).ToList();
+
+                var ketQua = dsGoc.Where(x => x.TenNhanVien.ToLower().Contains(input.ToLower())
+                                           || x.TenDuAn.ToLower().Contains(input.ToLower())).ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy thông tin phân công nào khớp!", "Thông báo");
+                    dataGridView.DataSource = dsGoc;
+                }
+            }
+            else
+            {
+                frmPhanCong_Load(sender, e);
+            }
         }
     }
 }

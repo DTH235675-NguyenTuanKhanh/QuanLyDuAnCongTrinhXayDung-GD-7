@@ -59,7 +59,6 @@
             label1 = new Label();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
-            phanCongBindingSource = new BindingSource(components);
             colID = new DataGridViewTextBoxColumn();
             colNhanVien = new DataGridViewTextBoxColumn();
             colDuAn = new DataGridViewTextBoxColumn();
@@ -69,6 +68,7 @@
             ngayBatDauDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ngayKetThucDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phanTramHoanThanhDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            phanCongBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
@@ -152,6 +152,7 @@
             btnNhap.TabIndex = 23;
             btnNhap.Text = "Nhập Excel";
             btnNhap.UseVisualStyleBackColor = false;
+            btnNhap.Click += btnNhap_Click;
             // 
             // btnXuat
             // 
@@ -163,6 +164,7 @@
             btnXuat.TabIndex = 22;
             btnXuat.Text = "Xuất Excel";
             btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnThoat
             // 
@@ -186,6 +188,7 @@
             btnTimKiem.TabIndex = 20;
             btnTimKiem.Text = "Tìm Kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += btnTimKiem_Click;
             // 
             // btnHuyBo
             // 
@@ -393,10 +396,6 @@
             dataGridView.Size = new Size(1297, 471);
             dataGridView.TabIndex = 0;
             // 
-            // phanCongBindingSource
-            // 
-            phanCongBindingSource.DataSource = typeof(Data.PhanCong);
-            // 
             // colID
             // 
             colID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -463,6 +462,10 @@
             phanTramHoanThanhDataGridViewTextBoxColumn.MinimumWidth = 6;
             phanTramHoanThanhDataGridViewTextBoxColumn.Name = "phanTramHoanThanhDataGridViewTextBoxColumn";
             phanTramHoanThanhDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // phanCongBindingSource
+            // 
+            phanCongBindingSource.DataSource = typeof(Data.PhanCong);
             // 
             // frmPhanCong
             // 

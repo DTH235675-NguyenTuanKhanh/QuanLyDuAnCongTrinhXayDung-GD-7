@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -245,6 +246,155 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
                     MessageBox.Show("Xóa dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     frmDuAn_Load(sender, e); // Tải lại dữ liệu sau khi xóa
                 }
+            }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel dự án";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua tiêu đề
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            DuAn da = new DuAn();
+                            da.TenDuAn = row.Cell(1).Value.ToString();
+                            da.DiaDiem = row.Cell(2).Value.ToString();
+                            da.NgayBatDau = DateTime.Parse(row.Cell(3).Value.ToString());
+                            da.NgayKetThuc = DateTime.Parse(row.Cell(4).Value.ToString());
+                            da.NganSach = decimal.Parse(row.Cell(5).Value.ToString());
+
+                            // Tìm ID theo tên từ các bảng liên kết
+                            string tenLoai = row.Cell(6).Value.ToString();
+                            var loai = context.LoaiDuAn.FirstOrDefault(l => l.TenLoai == tenLoai);
+                            if (loai != null) da.LoaiDuAnID = loai.ID;
+
+                            string tenKH = row.Cell(7).Value.ToString();
+                            var kh = context.KhachHang.FirstOrDefault(k => k.TenCongTy == tenKH);
+                            if (kh != null) da.KhachHangID = kh.ID;
+
+                            string tenNDT = row.Cell(8).Value.ToString();
+                            var ndt = context.NhaDauTu.FirstOrDefault(n => n.TenNhaDauTu == tenNDT);
+                            if (ndt != null) da.NhaDauTuID = ndt.ID;
+
+                            context.DuAn.Add(da);
+                            count++;
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} dự án.", "Thành công");
+                        frmDuAn_Load(sender, e); // Load lại Grid
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách dự án ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "DanhSachDuAn_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Tên Dự Án", typeof(string));
+                    table.Columns.Add("Địa Điểm", typeof(string));
+                    table.Columns.Add("Ngày Bắt Đầu", typeof(DateTime));
+                    table.Columns.Add("Ngày Kết Thúc", typeof(DateTime));
+                    table.Columns.Add("Ngân Sách", typeof(decimal));
+                    table.Columns.Add("Loại Dự Án", typeof(string));
+                    table.Columns.Add("Khách Hàng", typeof(string));
+                    table.Columns.Add("Nhà Đầu Tư", typeof(string));
+
+                    // Truy vấn lấy dữ liệu kèm tên hiển thị
+                    var danhSach = context.DuAn.Select(d => new
+                    {
+                        d.ID,
+                        d.TenDuAn,
+                        d.DiaDiem,
+                        d.NgayBatDau,
+                        d.NgayKetThuc,
+                        d.NganSach,
+                        TenLoai = d.LoaiDuAn.TenLoai,
+                        TenKH = d.KhachHang.TenCongTy,
+                        TenNDT = d.NhaDauTu.TenNhaDauTu
+                    }).ToList();
+
+                    foreach (var d in danhSach)
+                    {
+                        table.Rows.Add(d.ID, d.TenDuAn, d.DiaDiem, d.NgayBatDau, d.NgayKetThuc, d.NganSach, d.TenLoai, d.TenKH, d.TenNDT);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "DuAn");
+                        sheet.Columns().AdjustToContents();
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất dữ liệu dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên dự án hoặc địa điểm cần tìm:", "Tìm kiếm", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                var dsGoc = context.DuAn.Select(d => new DanhSachDuAn
+                {
+                    ID = d.ID,
+                    TenDuAn = d.TenDuAn,
+                    DiaDiem = d.DiaDiem,
+                    NgayBatDau = d.NgayBatDau,
+                    NgayKetThuc = d.NgayKetThuc,
+                    NganSach = d.NganSach,
+                    TenLoai = d.LoaiDuAn.TenLoai,
+                    TenKhachHang = d.KhachHang.TenCongTy,
+                    TenNhaDauTu = d.NhaDauTu.TenNhaDauTu
+                }).ToList();
+
+                // Lọc gần đúng theo Tên hoặc Địa điểm
+                var ketQua = dsGoc.Where(x => x.TenDuAn.ToLower().Contains(input.ToLower())
+                                           || x.DiaDiem.ToLower().Contains(input.ToLower())).ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy dự án nào khớp với từ khóa!", "Thông báo");
+                    dataGridView.DataSource = dsGoc;
+                }
+            }
+            else
+            {
+                frmDuAn_Load(sender, e);
             }
         }
     }

@@ -12,4 +12,12 @@ namespace QuanLyDuAnCongTrinhXayDung.Data
 
         public virtual ObservableCollectionListSource<PhanPhoiChiTiet> PhanPhoiChiTiet { get;  } = new();
     }
+    public class DanhSachVatTu
+    {
+        public int ID { get; set; }
+        public string TenVatTu { get; set; }
+        public string DonViTinh { get; set; }
+        public decimal DonGia { get; set; }
+        public string? HinhAnh { get; set; }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OfficeOpenXml;
+using System.IO;
+
 
 namespace QuanLyDuAnCongTrinhXayDung.Forms
 {
@@ -23,7 +27,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         public void LayNhanVienVaoComboBox()
         {
             List<NhanVien> dsNhanVien = context.NhanVien.ToList();
-            cboNhanVien.DataSource = dsNhanVien;           
+            cboNhanVien.DataSource = dsNhanVien;
             cboNhanVien.DisplayMember = "HoVaTen";
             cboNhanVien.ValueMember = "ID";
         }
@@ -242,6 +246,148 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách bảng lương ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "BangLuong_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Tên Nhân Viên", typeof(string));
+                    table.Columns.Add("Tháng", typeof(int));
+                    table.Columns.Add("Năm", typeof(int));
+                    table.Columns.Add("Số Ngày Công", typeof(int));
+                    table.Columns.Add("Tổng Phụ Cấp", typeof(decimal));
+                    table.Columns.Add("Thực Lĩnh", typeof(decimal));
+
+                    // Lấy dữ liệu bảng lương kèm tên nhân viên từ bảng liên kết
+                    var danhSach = context.BangLuong.Select(b => new
+                    {
+                        b.ID,
+                        TenNhanVien = b.NhanVien.HoVaTen,
+                        b.Thang,
+                        b.Nam,
+                        b.SoNgayCong,
+                        b.TongPhuCap,
+                        b.ThucLinh
+                    }).ToList();
+
+                    foreach (var b in danhSach)
+                    {
+                        table.Rows.Add(b.ID, b.TenNhanVien, b.Thang, b.Nam, b.SoNgayCong, b.TongPhuCap, b.ThucLinh);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "BangLuong");
+                        sheet.Columns().AdjustToContents();
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất dữ liệu bảng lương thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel bảng lương";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua tiêu đề
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            BangLuong bl = new BangLuong();
+
+                            // Giả sử cột 1: Tên NV, cột 2: Tháng, cột 3: Năm, cột 4: Số ngày công, cột 5: Phụ cấp, cột 6: Thực lĩnh
+                            string tenNV = row.Cell(1).Value.ToString();
+                            var nv = context.NhanVien.FirstOrDefault(n => n.HoVaTen == tenNV);
+
+                            if (nv != null)
+                            {
+                                bl.NhanVienID = nv.ID;
+                                bl.Thang = int.Parse(row.Cell(2).Value.ToString());
+                                bl.Nam = int.Parse(row.Cell(3).Value.ToString());
+                                bl.SoNgayCong = int.Parse(row.Cell(4).Value.ToString());
+                                bl.TongPhuCap = decimal.Parse(row.Cell(5).Value.ToString());
+                                bl.ThucLinh = decimal.Parse(row.Cell(6).Value.ToString());
+
+                                context.BangLuong.Add(bl);
+                                count++;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} bản ghi lương.", "Thành công");
+                        frmBangLuong_Load(sender, e); // Load lại DataGridView của ný
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            // Hiển thị hộp thoại nhập tên nhân viên
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên nhân viên cần tìm:", "Tìm kiếm lương", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                // Lấy toàn bộ danh sách hiện tại từ Database
+                var dsGoc = context.BangLuong.Select(b => new DanhSachBangLuong
+                {
+                    ID = b.ID,
+                    NhanVienID = b.NhanVienID,
+                    TenNhanVien = b.NhanVien.HoVaTen, // Lấy tên từ bảng NhanVien
+                    Thang = b.Thang,
+                    Nam = b.Nam,
+                    SoNgayCong = b.SoNgayCong,
+                    TongPhuCap = b.TongPhuCap,
+                    ThucLinh = b.ThucLinh
+                }).ToList();
+
+                // Lọc danh sách theo tên (chứa từ khóa nhập vào)
+                var ketQua = dsGoc.Where(x => x.TenNhanVien.ToLower().Contains(input.ToLower())).ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên nào có tên này trong bảng lương!", "Thông báo");
+                    dataGridView.DataSource = dsGoc; // Hiện lại toàn bộ nếu không thấy
+                }
+            }
+            else
+            {
+                // Nếu để trống, load lại toàn bộ dữ liệu
+                frmBangLuong_Load(sender, e);
+            }
         }
     }
 }

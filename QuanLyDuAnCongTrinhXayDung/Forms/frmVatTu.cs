@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         bool xulyThem = false;
         int id;
         string hinhAnhTam = "";
-        string imagesFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows", "Images");
+        string imagesFolder = Application.StartupPath.Replace("bin\\Debug\\net9.0-windows", "Images");
         public frmVatTu()
         {
             InitializeComponent();
@@ -176,28 +177,27 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         }
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // 1. Kiểm tra xem có đúng cột "HinhAnh" không (thay tên cột tương ứng của bạn)
-            if (dataGridView.Columns[e.ColumnIndex].Name == "HinhAnh" && e.Value != null)
+           // Kiểm tra tên cột(phải khớp với Name bạn đặt trong Design là "HinhAnh")
+            if (dataGridView.Columns[e.ColumnIndex].Name == "HinhAnh" && e.RowIndex >= 0)
             {
-                try
-                {
-                    string path = e.Value.ToString();
+                var vt = dataGridView.Rows[e.RowIndex].DataBoundItem as VatTu; // Đổi thành class đúng của bạn
 
-                    // 2. Kiểm tra nếu file tồn tại thì mới convert sang Image
-                    if (System.IO.File.Exists(path))
+                if (vt != null && !string.IsNullOrEmpty(vt.HinhAnh))
+                {
+                    string fullPath = Path.Combine(imagesFolder, vt.HinhAnh);
+                    if (File.Exists(fullPath))
                     {
-                        // Ép kiểu hiển thị sang Image để DataGridView không bị lỗi FormatException
-                        e.Value = Image.FromFile(path);
+                        using (FileStream fs = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                        {
+                            // Quan trọng: Phải Clone hoặc tạo Bitmap mới vì FileStream sẽ bị đóng ngay sau đó
+                            e.Value = new Bitmap(fs);
+                        }
                     }
                     else
                     {
-                        // Nếu không có ảnh, có thể để một ảnh mặc định hoặc null
-                        e.Value = null;
+                        e.Value = null; // Hoặc 1 tấm ảnh mặc định "No Image"
                     }
-                }
-                catch
-                {
-                    e.Value = null;
+                    e.FormattingApplied = true; // Báo cho hệ thống biết đã xử lý xong định dạng ô này
                 }
             }
         }
@@ -220,6 +220,115 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
                 context.SaveChanges();
                 frmVatTu_Load(sender, e);
             }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog { Filter = "Excel Workbook|*.xlsx" };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(ofd.FileName))
+                    {
+                        var worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua tiêu đề
+                        int count = 0;
+
+                        foreach (var row in rows)
+                        {
+                            string ten = row.Cell(1).Value.ToString();
+
+                            // Kiểm tra tránh trùng lặp vật tư
+                            if (!context.VatTu.Any(x => x.TenVatTu == ten))
+                            {
+                                VatTu vt = new VatTu
+                                {
+                                    TenVatTu = ten,
+                                    DonViTinh = row.Cell(2).Value.ToString(),
+                                    DonGia = decimal.Parse(row.Cell(3).Value.ToString()) // Cột 3 là Đơn giá
+                                };
+                                context.VatTu.Add(vt);
+                                count++;
+                            }
+                        }
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} vật tư mới!", "Thành công");
+                        frmVatTu_Load(sender, e); // Load lại DataGridView
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Lỗi định dạng file hoặc dữ liệu: " + ex.Message); }
+            }
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Excel Workbook|*.xlsx",
+                FileName = "DanhSachVatTu_" + DateTime.Now.ToString("dd_MM_yyyy")
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("Mã vật tư", typeof(int));
+                    table.Columns.Add("Tên Vật Tư", typeof(string));
+                    table.Columns.Add("Đơn Vị Tính", typeof(string));
+                    table.Columns.Add("Đơn Giá", typeof(decimal));
+
+                    // Lấy dữ liệu từ bảng VatTu
+                    var ds = context.VatTu.Select(v => new { v.ID, v.TenVatTu, v.DonViTinh, v.DonGia }).ToList();
+                    foreach (var v in ds) table.Rows.Add(v.ID, v.TenVatTu, v.DonViTinh, v.DonGia);
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var ws = wb.Worksheets.Add(table, "Danh_Muc_Vat_Tu");
+
+                        // Định dạng hiển thị tiền tệ cho cột Đơn Giá
+                        ws.Column(4).Style.NumberFormat.Format = "#,##0";
+                        ws.Columns().AdjustToContents();
+
+                        wb.SaveAs(sfd.FileName);
+                        MessageBox.Show("Xuất danh sách vật tư thành công!", "Thông báo");
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên vật tư cần tìm:", "Tìm kiếm vật tư", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                // Tìm kiếm gần đúng theo tên vật tư
+                var ketQua = context.VatTu
+                    .Where(v => v.TenVatTu.ToLower().Contains(input.ToLower()))
+                    .ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy vật tư nào khớp với từ khóa!", "Thông báo");
+                    frmVatTu_Load(sender, e); // Quay lại danh sách gốc
+                }
+            }
+            else
+            {
+                frmVatTu_Load(sender, e);
+            }
+        }
+        private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // Lệnh này sẽ "khóa mõm" cái bảng lỗi Format ný đang gặp
+            e.ThrowException = false;
         }
     }
 }

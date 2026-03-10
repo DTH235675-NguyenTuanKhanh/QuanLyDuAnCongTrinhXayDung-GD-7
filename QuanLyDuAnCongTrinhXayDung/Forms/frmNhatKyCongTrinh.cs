@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -211,6 +212,138 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất nhật ký công trình ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "NhatKyCongTrinh_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Tên Dự Án", typeof(string));
+                    table.Columns.Add("Ngày Ghi", typeof(DateTime));
+                    table.Columns.Add("Nội Dung Công Việc", typeof(string));
+                    table.Columns.Add("Ghi Chú", typeof(string));
+
+                    // Truy vấn lấy dữ liệu nhật ký kèm tên dự án
+                    var danhSach = context.NhatKyCongTrinh.Select(n => new
+                    {
+                        n.ID,
+                        TenDuAn = n.DuAn.TenDuAn,
+                        n.NgayGhi,
+                        n.NoiDungCongViec,
+                        n.GhiChu
+                    }).ToList();
+
+                    foreach (var n in danhSach)
+                    {
+                        table.Rows.Add(n.ID, n.TenDuAn, n.NgayGhi, n.NoiDungCongViec, n.GhiChu);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "NhatKy");
+                        sheet.Columns().AdjustToContents();
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất nhật ký công trình thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel nhật ký";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua tiêu đề
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            NhatKyCongTrinh nk = new NhatKyCongTrinh();
+
+                            // Tìm ID Dự án theo tên dự án trong file Excel (Cột 1)
+                            string tenDA = row.Cell(1).Value.ToString();
+                            var duAn = context.DuAn.FirstOrDefault(d => d.TenDuAn == tenDA);
+
+                            if (duAn != null)
+                            {
+                                nk.DuAnID = duAn.ID;
+                                nk.NgayGhi = DateTime.Parse(row.Cell(2).Value.ToString());
+                                nk.NoiDungCongViec = row.Cell(3).Value.ToString();
+                                nk.GhiChu = row.Cell(4).Value.ToString();
+
+                                context.NhatKyCongTrinh.Add(nk);
+                                count++;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} dòng nhật ký.", "Thành công");
+                        frmNhatKyCongTrinh_Load(sender, e); // Load lại Grid của ný
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập tên dự án hoặc nội dung cần tìm:", "Tìm kiếm nhật ký", "");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                var dsGoc = context.NhatKyCongTrinh.Select(n => new DanhSachNhatKy
+                {
+                    ID = n.ID,
+                    DuAnID = n.DuAnID,
+                    DuAn = n.DuAn.TenDuAn,
+                    NgayGhi = n.NgayGhi,
+                    NoiDungCongViec = n.NoiDungCongViec,
+                    GhiChu = n.GhiChu
+                }).ToList();
+
+                // Lọc gần đúng theo Tên dự án hoặc Nội dung công việc
+                var ketQua = dsGoc.Where(x => x.DuAn.ToLower().Contains(input.ToLower())
+                                           || x.NoiDungCongViec.ToLower().Contains(input.ToLower())).ToList();
+
+                if (ketQua.Count > 0)
+                {
+                    dataGridView.DataSource = ketQua;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy nhật ký nào khớp với từ khóa!", "Thông báo");
+                    dataGridView.DataSource = dsGoc;
+                }
+            }
+            else
+            {
+                frmNhatKyCongTrinh_Load(sender, e);
+            }
         }
     }
 }

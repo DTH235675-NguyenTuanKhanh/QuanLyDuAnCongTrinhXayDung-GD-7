@@ -1,4 +1,5 @@
-﻿using QuanLyDuAnCongTrinhXayDung.Data;
+﻿using ClosedXML.Excel;
+using QuanLyDuAnCongTrinhXayDung.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -140,6 +141,92 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách loại dự án ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "LoaiDuAn_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+                    table.Columns.Add("ID", typeof(int));
+                    table.Columns.Add("Tên Loại Dự Án", typeof(string));
+
+                    // Lấy dữ liệu từ bảng LoaiDuAn
+                    var danhSach = context.LoaiDuAn.Select(l => new
+                    {
+                        l.ID,
+                        l.TenLoai
+                    }).ToList();
+
+                    foreach (var l in danhSach)
+                    {
+                        table.Rows.Add(l.ID, l.TenLoai);
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "LoaiDuAn");
+                        sheet.Columns().AdjustToContents(); // Tự động căn chỉnh độ rộng cột
+                        wb.SaveAs(saveFileDialog.FileName);
+                        MessageBox.Show("Xuất dữ liệu loại dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnNhap_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file Excel loại dự án";
+            openFileDialog.Filter = "Tập tin Excel|*.xls;*.xlsx";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (XLWorkbook workbook = new XLWorkbook(openFileDialog.FileName))
+                    {
+                        IXLWorksheet worksheet = workbook.Worksheet(1);
+                        var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua tiêu đề
+
+                        int count = 0;
+                        foreach (var row in rows)
+                        {
+                            string tenLoai = row.Cell(1).Value.ToString(); // Lấy tên ở cột đầu tiên
+
+                            if (!string.IsNullOrWhiteSpace(tenLoai))
+                            {
+                                // Kiểm tra tránh trùng tên đã có trong DB
+                                if (!context.LoaiDuAn.Any(x => x.TenLoai == tenLoai))
+                                {
+                                    LoaiDuAn lda = new LoaiDuAn { TenLoai = tenLoai };
+                                    context.LoaiDuAn.Add(lda);
+                                    count++;
+                                }
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show($"Đã nhập thành công {count} loại dự án mới.", "Thành công");
+                        frmLoaiDuAn_Load(sender, e); // Load lại DataGridView
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi nhập file: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

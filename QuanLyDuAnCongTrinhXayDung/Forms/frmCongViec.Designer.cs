@@ -144,6 +144,7 @@
             btnNhap.TabIndex = 32;
             btnNhap.Text = "Nhập Excel";
             btnNhap.UseVisualStyleBackColor = false;
+            btnNhap.Click += btnNhap_Click;
             // 
             // btnThoat
             // 
@@ -167,6 +168,7 @@
             btnXuat.TabIndex = 31;
             btnXuat.Text = "Xuất Excel";
             btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnTimKiem
             // 
@@ -178,6 +180,7 @@
             btnTimKiem.TabIndex = 29;
             btnTimKiem.Text = "Tìm Kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += btnTimKiem_Click;
             // 
             // btnHuyBo
             // 

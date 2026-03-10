@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             cboVatTu = new ComboBox();
             numSoLuong = new NumericUpDown();
@@ -45,14 +48,14 @@
             btnLuu = new Button();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
-            danhSachPhanPhoiChiTietBindingSource = new BindingSource(components);
-            phanPhoiChiTietBindingSource1 = new BindingSource(components);
-            phanPhoiChiTietBindingSource = new BindingSource(components);
             colID = new DataGridViewTextBoxColumn();
             colTenVatTu = new DataGridViewTextBoxColumn();
             colSoLuong = new DataGridViewTextBoxColumn();
             colDonGia = new DataGridViewTextBoxColumn();
             colTongChiPhi = new DataGridViewTextBoxColumn();
+            danhSachPhanPhoiChiTietBindingSource = new BindingSource(components);
+            phanPhoiChiTietBindingSource1 = new BindingSource(components);
+            phanPhoiChiTietBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDonGia).BeginInit();
@@ -227,26 +230,38 @@
             // 
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { colID, colTenVatTu, colSoLuong, colDonGia, colTongChiPhi });
             dataGridView.DataSource = danhSachPhanPhoiChiTietBindingSource;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(990, 382);
             dataGridView.TabIndex = 0;
-            // 
-            // danhSachPhanPhoiChiTietBindingSource
-            // 
-            danhSachPhanPhoiChiTietBindingSource.DataSource = typeof(Data.DanhSachPhanPhoiChiTiet);
-            // 
-            // phanPhoiChiTietBindingSource1
-            // 
-            phanPhoiChiTietBindingSource1.DataSource = typeof(Data.PhanPhoiChiTiet);
-            // 
-            // phanPhoiChiTietBindingSource
-            // 
-            phanPhoiChiTietBindingSource.DataSource = typeof(Data.PhanPhoiChiTiet);
             // 
             // colID
             // 
@@ -284,6 +299,18 @@
             colTongChiPhi.HeaderText = "Tổng chi phí";
             colTongChiPhi.MinimumWidth = 6;
             colTongChiPhi.Name = "colTongChiPhi";
+            // 
+            // danhSachPhanPhoiChiTietBindingSource
+            // 
+            danhSachPhanPhoiChiTietBindingSource.DataSource = typeof(Data.DanhSachPhanPhoiChiTiet);
+            // 
+            // phanPhoiChiTietBindingSource1
+            // 
+            phanPhoiChiTietBindingSource1.DataSource = typeof(Data.PhanPhoiChiTiet);
+            // 
+            // phanPhoiChiTietBindingSource
+            // 
+            phanPhoiChiTietBindingSource.DataSource = typeof(Data.PhanPhoiChiTiet);
             // 
             // frmPhanPhoiChiTiet
             // 
