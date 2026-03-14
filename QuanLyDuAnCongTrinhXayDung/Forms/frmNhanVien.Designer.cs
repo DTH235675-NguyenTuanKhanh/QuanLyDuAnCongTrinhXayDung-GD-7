@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNhanVien));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
@@ -59,8 +60,10 @@
             label2 = new Label();
             txtHoTen = new TextBox();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dgvNhanVien = new DataGridView();
+            nhanVienBindingSource = new BindingSource(components);
             STT = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             HoVaTen = new DataGridViewTextBoxColumn();
@@ -71,8 +74,8 @@
             LuongCoBan = new DataGridViewTextBoxColumn();
             ChuyenMon = new DataGridViewTextBoxColumn();
             QuyenHan = new DataGridViewTextBoxColumn();
-            nhanVienBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvNhanVien).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nhanVienBindingSource).BeginInit();
@@ -80,6 +83,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(txtTimKiem);
             groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(btnNhap);
@@ -107,6 +111,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtHoTen);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
@@ -369,8 +374,20 @@
             label1.TabIndex = 0;
             label1.Text = "Họ Và Tên: ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(775, 27);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(468, 231);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 36;
+            pictureBox1.TabStop = false;
+            // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dgvNhanVien);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 293);
@@ -384,7 +401,10 @@
             // 
             dgvNhanVien.AllowUserToAddRows = false;
             dgvNhanVien.AllowUserToDeleteRows = false;
+            dgvNhanVien.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvNhanVien.AutoGenerateColumns = false;
+            dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvNhanVien.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvNhanVien.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -408,9 +428,14 @@
             dgvNhanVien.Location = new Point(3, 30);
             dgvNhanVien.Name = "dgvNhanVien";
             dgvNhanVien.RowHeadersWidth = 51;
+            dgvNhanVien.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvNhanVien.Size = new Size(1259, 435);
             dgvNhanVien.TabIndex = 0;
             dgvNhanVien.CellContentClick += dgvNhanVien_CellContentClick;
+            // 
+            // nhanVienBindingSource
+            // 
+            nhanVienBindingSource.DataSource = typeof(Data.NhanVien);
             // 
             // STT
             // 
@@ -439,67 +464,55 @@
             HoVaTen.MinimumWidth = 6;
             HoVaTen.Name = "HoVaTen";
             HoVaTen.SortMode = DataGridViewColumnSortMode.NotSortable;
-            HoVaTen.Width = 200;
+            HoVaTen.Width = 300;
             // 
             // DiaChi
             // 
-            DiaChi.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DiaChi.DataPropertyName = "DiaChi";
             DiaChi.FillWeight = 13.5776281F;
             DiaChi.HeaderText = "Địa chỉ";
             DiaChi.MinimumWidth = 6;
             DiaChi.Name = "DiaChi";
-            DiaChi.Width = 150;
             // 
             // DienThoai
             // 
-            DienThoai.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             DienThoai.DataPropertyName = "DienThoai";
             DienThoai.FillWeight = 24.8486176F;
             DienThoai.HeaderText = "Điện thoại";
             DienThoai.MinimumWidth = 6;
             DienThoai.Name = "DienThoai";
-            DienThoai.Width = 140;
             // 
             // TenDangNhap
             // 
-            TenDangNhap.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             TenDangNhap.DataPropertyName = "TenDangNhap";
             TenDangNhap.FillWeight = 37.272213F;
             TenDangNhap.HeaderText = "Tên Đăng Nhập";
             TenDangNhap.MinimumWidth = 6;
             TenDangNhap.Name = "TenDangNhap";
-            TenDangNhap.Width = 155;
             // 
             // MatKhau
             // 
-            MatKhau.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             MatKhau.DataPropertyName = "MatKhau";
             MatKhau.FillWeight = 27.3957462F;
             MatKhau.HeaderText = "Mật khẩu";
             MatKhau.MinimumWidth = 6;
             MatKhau.Name = "MatKhau";
-            MatKhau.Width = 125;
             // 
             // LuongCoBan
             // 
-            LuongCoBan.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             LuongCoBan.DataPropertyName = "LuongCoBan";
             LuongCoBan.FillWeight = 32.14602F;
             LuongCoBan.HeaderText = "Lương Cơ Bản";
             LuongCoBan.MinimumWidth = 6;
             LuongCoBan.Name = "LuongCoBan";
-            LuongCoBan.Width = 150;
             // 
             // ChuyenMon
             // 
-            ChuyenMon.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             ChuyenMon.DataPropertyName = "ChuyenMon";
             ChuyenMon.FillWeight = 40.57492F;
             ChuyenMon.HeaderText = "Chuyên Môn";
             ChuyenMon.MinimumWidth = 6;
             ChuyenMon.Name = "ChuyenMon";
-            ChuyenMon.Width = 120;
             // 
             // QuyenHan
             // 
@@ -508,11 +521,6 @@
             QuyenHan.HeaderText = "Quyền Hạn";
             QuyenHan.MinimumWidth = 6;
             QuyenHan.Name = "QuyenHan";
-            QuyenHan.Width = 120;
-            // 
-            // nhanVienBindingSource
-            // 
-            nhanVienBindingSource.DataSource = typeof(Data.NhanVien);
             // 
             // frmNhanVien
             // 
@@ -522,10 +530,13 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmNhanVien";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "NHÂN VIÊN";
+            WindowState = FormWindowState.Maximized;
             Load += frmNhanVien_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvNhanVien).EndInit();
             ((System.ComponentModel.ISupportInitialize)nhanVienBindingSource).EndInit();
@@ -563,6 +574,9 @@
         private GroupBox groupBox2;
         private DataGridView dgvNhanVien;
         private BindingSource nhanVienBindingSource;
+        private TextBox txtTimKiem;
+        private Label label9;
+        private PictureBox pictureBox1;
         private DataGridViewTextBoxColumn STT;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn HoVaTen;
@@ -573,7 +587,5 @@
         private DataGridViewTextBoxColumn LuongCoBan;
         private DataGridViewTextBoxColumn ChuyenMon;
         private DataGridViewTextBoxColumn QuyenHan;
-        private TextBox txtTimKiem;
-        private Label label9;
     }
 }

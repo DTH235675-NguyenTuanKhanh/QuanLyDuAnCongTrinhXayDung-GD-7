@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCongViec));
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
@@ -48,27 +49,32 @@
             btnThem = new Button();
             txtTenCongViec = new TextBox();
             label2 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)congViecBindingSource).BeginInit();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 231);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(961, 355);
+            groupBox2.Size = new Size(1258, 355);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách công việc";
             // 
             // dataGridView
             // 
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
@@ -91,7 +97,8 @@
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(949, 316);
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView.Size = new Size(1246, 316);
             dataGridView.TabIndex = 0;
             // 
             // Id
@@ -116,6 +123,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(btnNhap);
             groupBox1.Controls.Add(btnThoat);
             groupBox1.Controls.Add(btnXuat);
@@ -127,9 +135,10 @@
             groupBox1.Controls.Add(btnThem);
             groupBox1.Controls.Add(txtTenCongViec);
             groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(961, 204);
+            groupBox1.Size = new Size(1258, 204);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin công việc";
@@ -138,7 +147,7 @@
             // 
             btnNhap.BackColor = Color.MediumSpringGreen;
             btnNhap.ForeColor = Color.Black;
-            btnNhap.Location = new Point(343, 140);
+            btnNhap.Location = new Point(972, 88);
             btnNhap.Name = "btnNhap";
             btnNhap.Size = new Size(120, 46);
             btnNhap.TabIndex = 32;
@@ -162,7 +171,7 @@
             // 
             btnXuat.BackColor = Color.MediumSpringGreen;
             btnXuat.ForeColor = Color.Black;
-            btnXuat.Location = new Point(491, 140);
+            btnXuat.Location = new Point(1120, 88);
             btnXuat.Name = "btnXuat";
             btnXuat.Size = new Size(121, 46);
             btnXuat.TabIndex = 31;
@@ -247,7 +256,7 @@
             txtTenCongViec.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
             txtTenCongViec.Location = new Point(200, 34);
             txtTenCongViec.Name = "txtTenCongViec";
-            txtTenCongViec.Size = new Size(741, 30);
+            txtTenCongViec.Size = new Size(1041, 30);
             txtTenCongViec.TabIndex = 3;
             // 
             // label2
@@ -260,21 +269,35 @@
             label2.TabIndex = 2;
             label2.Text = "Tên Công Việc(*): ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(915, 19);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(304, 179);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 34;
+            pictureBox1.TabStop = false;
+            // 
             // frmCongViec
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(987, 598);
+            ClientSize = new Size(1284, 598);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmCongViec";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Công Việc";
+            WindowState = FormWindowState.Maximized;
             Load += frmCongViec_Load;
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)congViecBindingSource).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -297,5 +320,6 @@
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn TenCongViec;
         private BindingSource congViecBindingSource;
+        private PictureBox pictureBox1;
     }
 }

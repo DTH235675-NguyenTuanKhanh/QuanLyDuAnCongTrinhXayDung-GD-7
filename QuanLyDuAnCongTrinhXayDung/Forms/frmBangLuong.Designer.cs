@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBangLuong));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
@@ -55,6 +56,7 @@
             txtThang = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
@@ -66,6 +68,7 @@
             ThucLinh = new DataGridViewTextBoxColumn();
             bangLuongBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bangLuongBindingSource).BeginInit();
@@ -73,6 +76,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(txtLuongCoBan);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(cboNhanVien);
@@ -96,10 +101,11 @@
             groupBox1.Controls.Add(txtThang);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1179, 275);
+            groupBox1.Size = new Size(1187, 286);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin Lương";
@@ -326,21 +332,35 @@
             label1.TabIndex = 0;
             label1.Text = "Tên Nhân viên: ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(695, 33);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(469, 242);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 33;
+            pictureBox1.TabStop = false;
+            // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 293);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1179, 421);
+            groupBox2.Size = new Size(1187, 552);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách Lương";
             // 
             // dataGridView
             // 
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
@@ -363,7 +383,8 @@
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(1167, 382);
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView.Size = new Size(1175, 513);
             dataGridView.TabIndex = 0;
             // 
             // colID
@@ -436,14 +457,17 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1200, 722);
+            ClientSize = new Size(1208, 853);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmBangLuong";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Bảng Lương";
+            WindowState = FormWindowState.Maximized;
             Load += frmBangLuong_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)bangLuongBindingSource).EndInit();
@@ -487,5 +511,6 @@
         private DataGridViewTextBoxColumn SoNgayCong;
         private DataGridViewTextBoxColumn TongPhuCap;
         private DataGridViewTextBoxColumn ThucLinh;
+        private PictureBox pictureBox1;
     }
 }

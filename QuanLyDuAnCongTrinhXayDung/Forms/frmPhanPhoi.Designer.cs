@@ -51,6 +51,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(3, 12);
@@ -62,8 +63,10 @@
             // 
             // dataGridView
             // 
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
@@ -86,6 +89,7 @@
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView.Size = new Size(1273, 423);
             dataGridView.TabIndex = 0;
             // 
@@ -118,6 +122,7 @@
             // 
             // btnThoat
             // 
+            btnThoat.Anchor = AnchorStyles.Bottom;
             btnThoat.BackColor = Color.Silver;
             btnThoat.ForeColor = Color.Black;
             btnThoat.Location = new Point(774, 488);
@@ -130,6 +135,7 @@
             // 
             // btnTimKiem
             // 
+            btnTimKiem.Anchor = AnchorStyles.Bottom;
             btnTimKiem.BackColor = Color.Fuchsia;
             btnTimKiem.ForeColor = Color.Black;
             btnTimKiem.Location = new Point(599, 488);
@@ -142,6 +148,7 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.Bottom;
             btnXoa.BackColor = Color.Red;
             btnXoa.ForeColor = Color.Black;
             btnXoa.Location = new Point(432, 488);
@@ -154,6 +161,7 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.Bottom;
             btnSua.BackColor = Color.Yellow;
             btnSua.ForeColor = Color.Black;
             btnSua.Location = new Point(272, 488);
@@ -166,6 +174,7 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.Bottom;
             btnThem.BackColor = Color.Lime;
             btnThem.ForeColor = Color.Black;
             btnThem.Location = new Point(57, 488);
@@ -178,6 +187,7 @@
             // 
             // btnNhap
             // 
+            btnNhap.Anchor = AnchorStyles.Bottom;
             btnNhap.BackColor = Color.MediumSpringGreen;
             btnNhap.ForeColor = Color.Black;
             btnNhap.Location = new Point(1106, 488);
@@ -190,6 +200,7 @@
             // 
             // btnXuat
             // 
+            btnXuat.Anchor = AnchorStyles.Bottom;
             btnXuat.BackColor = Color.MediumSpringGreen;
             btnXuat.ForeColor = Color.Black;
             btnXuat.Location = new Point(938, 488);
@@ -214,7 +225,9 @@
             Controls.Add(btnThem);
             Controls.Add(btnSua);
             Name = "frmPhanPhoi";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Phân Phối";
+            WindowState = FormWindowState.Maximized;
             Load += frmPhanPhoi_Load;
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();

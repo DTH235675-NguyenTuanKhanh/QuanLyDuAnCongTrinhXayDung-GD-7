@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNhaDauTu));
             groupBox1 = new GroupBox();
             btnNhap = new Button();
             btnXuat = new Button();
@@ -56,14 +57,17 @@
             DiaChi = new DataGridViewTextBoxColumn();
             SoDienThoai = new DataGridViewTextBoxColumn();
             nhaDauTuBindingSource = new BindingSource(components);
+            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nhaDauTuBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(btnNhap);
             groupBox1.Controls.Add(btnXuat);
             groupBox1.Controls.Add(btnThoat);
@@ -81,6 +85,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtTenNhaDauTu);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
@@ -263,6 +268,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 238);
@@ -276,6 +282,7 @@
             // 
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -302,6 +309,7 @@
             dataGridView.Location = new Point(0, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView.Size = new Size(1259, 429);
             dataGridView.TabIndex = 0;
             // 
@@ -343,6 +351,17 @@
             // 
             nhaDauTuBindingSource.DataSource = typeof(Data.NhaDauTu);
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(955, 20);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(304, 179);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 36;
+            pictureBox1.TabStop = false;
+            // 
             // frmNhaDauTu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -351,13 +370,16 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmNhaDauTu";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Nhà Đầu Tư";
+            WindowState = FormWindowState.Maximized;
             Load += frmNhaDauTu_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)nhaDauTuBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -392,5 +414,6 @@
         private DataGridViewTextBoxColumn MaSoThue;
         private DataGridViewTextBoxColumn DiaChi;
         private DataGridViewTextBoxColumn SoDienThoai;
+        private PictureBox pictureBox1;
     }
 }

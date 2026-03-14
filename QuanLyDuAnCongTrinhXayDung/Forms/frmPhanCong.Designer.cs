@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPhanCong));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
@@ -57,6 +58,7 @@
             label2 = new Label();
             txtVaiTro = new TextBox();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
@@ -70,6 +72,7 @@
             phanTramHoanThanhDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phanCongBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)phanCongBindingSource).BeginInit();
@@ -77,6 +80,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(dtpNgayKetThuc);
             groupBox1.Controls.Add(dtpNgayBatDau);
             groupBox1.Controls.Add(cboTenDuAn);
@@ -102,6 +106,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtVaiTro);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(10, 12);
             groupBox1.Name = "groupBox1";
@@ -352,8 +357,20 @@
             label1.TabIndex = 0;
             label1.Text = "Dự án: ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(822, 21);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(462, 231);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 36;
+            pictureBox1.TabStop = false;
+            // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(10, 290);
@@ -367,6 +384,7 @@
             // 
             dataGridView.AllowUserToAddRows = false;
             dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -475,10 +493,13 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmPhanCong";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Phân Công";
+            WindowState = FormWindowState.Maximized;
             Load += frmPhanCong_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)phanCongBindingSource).EndInit();
@@ -528,5 +549,6 @@
         private DataGridViewTextBoxColumn ngayBatDauDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn ngayKetThucDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phanTramHoanThanhDataGridViewTextBoxColumn;
+        private PictureBox pictureBox1;
     }
 }

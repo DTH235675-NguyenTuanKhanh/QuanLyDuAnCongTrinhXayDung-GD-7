@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPhanPhoiChiTiet));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -43,6 +44,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
             btnThoat = new Button();
             btnHuyBo = new Button();
             btnLuu = new Button();
@@ -59,6 +61,7 @@
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDonGia).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)danhSachPhanPhoiChiTietBindingSource).BeginInit();
@@ -68,6 +71,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(cboVatTu);
             groupBox1.Controls.Add(numSoLuong);
             groupBox1.Controls.Add(txtTongChiPhi);
@@ -78,6 +82,7 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
@@ -179,8 +184,20 @@
             label1.TabIndex = 0;
             label1.Text = "Tên Vật tư: ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(669, 19);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(327, 188);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 39;
+            pictureBox1.TabStop = false;
+            // 
             // btnThoat
             // 
+            btnThoat.Anchor = AnchorStyles.Bottom;
             btnThoat.BackColor = Color.Silver;
             btnThoat.ForeColor = Color.Black;
             btnThoat.Location = new Point(620, 724);
@@ -193,6 +210,7 @@
             // 
             // btnHuyBo
             // 
+            btnHuyBo.Anchor = AnchorStyles.Bottom;
             btnHuyBo.BackColor = Color.FromArgb(255, 128, 0);
             btnHuyBo.ForeColor = Color.Black;
             btnHuyBo.Location = new Point(450, 724);
@@ -205,6 +223,7 @@
             // 
             // btnLuu
             // 
+            btnLuu.Anchor = AnchorStyles.Bottom;
             btnLuu.BackColor = Color.Cyan;
             btnLuu.ForeColor = Color.Black;
             btnLuu.Location = new Point(286, 724);
@@ -217,6 +236,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 225);
@@ -228,8 +248,10 @@
             // 
             // dataGridView
             // 
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
@@ -260,6 +282,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView.RowHeadersWidth = 51;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView.Size = new Size(990, 382);
             dataGridView.TabIndex = 0;
             // 
@@ -323,12 +346,15 @@
             Controls.Add(btnLuu);
             Controls.Add(btnThoat);
             Name = "frmPhanPhoiChiTiet";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Phân Phối Chi Tiết";
+            WindowState = FormWindowState.Maximized;
             Load += frmPhanPhoiChiTiet_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numSoLuong).EndInit();
             ((System.ComponentModel.ISupportInitialize)numDonGia).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)danhSachPhanPhoiChiTietBindingSource).EndInit();
@@ -363,5 +389,6 @@
         private DataGridViewTextBoxColumn colSoLuong;
         private DataGridViewTextBoxColumn colDonGia;
         private DataGridViewTextBoxColumn colTongChiPhi;
+        private PictureBox pictureBox1;
     }
 }

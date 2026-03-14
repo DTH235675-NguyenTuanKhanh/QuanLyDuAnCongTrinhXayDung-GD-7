@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoaiDuAn));
             groupBox1 = new GroupBox();
             btnNhap = new Button();
             btnThoat = new Button();
@@ -51,6 +52,7 @@
             vatTuChiTietBindingSource = new BindingSource(components);
             khoiTaoMoiBindingSource = new BindingSource(components);
             khoiTaoBindingSource = new BindingSource(components);
+            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
@@ -58,10 +60,12 @@
             ((System.ComponentModel.ISupportInitialize)vatTuChiTietBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoMoiBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(btnNhap);
             groupBox1.Controls.Add(btnThoat);
             groupBox1.Controls.Add(btnXuat);
@@ -73,9 +77,10 @@
             groupBox1.Controls.Add(btnThem);
             groupBox1.Controls.Add(txtTenLoaiDuAn);
             groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(pictureBox1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(961, 204);
+            groupBox1.Size = new Size(1261, 204);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin dự án";
@@ -84,7 +89,7 @@
             // 
             btnNhap.BackColor = Color.MediumSpringGreen;
             btnNhap.ForeColor = Color.Black;
-            btnNhap.Location = new Point(343, 140);
+            btnNhap.Location = new Point(975, 88);
             btnNhap.Name = "btnNhap";
             btnNhap.Size = new Size(120, 46);
             btnNhap.TabIndex = 32;
@@ -108,7 +113,7 @@
             // 
             btnXuat.BackColor = Color.MediumSpringGreen;
             btnXuat.ForeColor = Color.Black;
-            btnXuat.Location = new Point(491, 140);
+            btnXuat.Location = new Point(1123, 88);
             btnXuat.Name = "btnXuat";
             btnXuat.Size = new Size(121, 46);
             btnXuat.TabIndex = 31;
@@ -193,7 +198,7 @@
             txtTenLoaiDuAn.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
             txtTenLoaiDuAn.Location = new Point(200, 34);
             txtTenLoaiDuAn.Name = "txtTenLoaiDuAn";
-            txtTenLoaiDuAn.Size = new Size(741, 30);
+            txtTenLoaiDuAn.Size = new Size(1044, 30);
             txtTenLoaiDuAn.TabIndex = 3;
             // 
             // label2
@@ -209,17 +214,19 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(dataGridView);
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(12, 222);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(961, 339);
+            groupBox2.Size = new Size(1261, 339);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách loại sản phẩm";
             // 
             // dataGridView
             // 
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -246,7 +253,8 @@
             dataGridView.Location = new Point(6, 33);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(949, 299);
+            dataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView.Size = new Size(1249, 299);
             dataGridView.TabIndex = 0;
             // 
             // Id
@@ -273,15 +281,28 @@
             // 
             khoiTaoBindingSource.DataSource = typeof(Migrations.KhoiTao);
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(940, 19);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(304, 179);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 35;
+            pictureBox1.TabStop = false;
+            // 
             // frmLoaiDuAn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(993, 566);
+            ClientSize = new Size(1293, 566);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "frmLoaiDuAn";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Loại Dự Án";
+            WindowState = FormWindowState.Maximized;
             Load += frmLoaiDuAn_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -291,6 +312,7 @@
             ((System.ComponentModel.ISupportInitialize)vatTuChiTietBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoMoiBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -316,5 +338,6 @@
         private BindingSource khoiTaoBindingSource;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn TenLoai;
+        private PictureBox pictureBox1;
     }
 }
