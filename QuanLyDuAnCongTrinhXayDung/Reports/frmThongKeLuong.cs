@@ -28,6 +28,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Reports
                 // Flatten dữ liệu để đưa vào DataTable phẳng
                 var danhSachLuong = context.BangLuong.Select(r => new DanhSachBangLuong
                 {
+                    ID = r.ID,
                     NhanVienID = r.NhanVienID,
                     TenNhanVien = r.NhanVien.HoVaTen, // Giả sử thuộc tính là HoTen
                     Thang = r.Thang,
@@ -43,6 +44,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Reports
                 foreach (var row in danhSachLuong)
                 {
                     danhSachLuongDataTable.AddDanhSachLuongRow(
+                        row.ID,                        
                         row.NhanVienID,
                         row.TenNhanVien,
                         row.Thang,
@@ -50,6 +52,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Reports
                         row.SoNgayCong,
                         row.TongPhuCap,
                         row.ThucLinh
+                        
                    ); 
                 }
 

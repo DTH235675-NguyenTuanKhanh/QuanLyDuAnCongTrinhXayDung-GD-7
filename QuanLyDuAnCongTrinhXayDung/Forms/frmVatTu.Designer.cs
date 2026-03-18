@@ -54,17 +54,17 @@
             pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
+            colID = new DataGridViewTextBoxColumn();
+            colTenVatTu = new DataGridViewTextBoxColumn();
+            colDonViTinh = new DataGridViewTextBoxColumn();
+            colDonGia = new DataGridViewTextBoxColumn();
+            HinhAnh = new DataGridViewImageColumn();
             danhSachVatTuBindingSource = new BindingSource(components);
             vatTuBindingSource = new BindingSource(components);
             phanPhoiChiTietBindingSource = new BindingSource(components);
             phanPhoiBindingSource = new BindingSource(components);
             chiTietPhanPhoiBindingSource = new BindingSource(components);
             phanPhoiBindingSource1 = new BindingSource(components);
-            colID = new DataGridViewTextBoxColumn();
-            colTenVatTu = new DataGridViewTextBoxColumn();
-            colDonViTinh = new DataGridViewTextBoxColumn();
-            colDonGia = new DataGridViewTextBoxColumn();
-            HinhAnh = new DataGridViewImageColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numDonGia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ptbHinhAnh).BeginInit();
@@ -303,7 +303,7 @@
             pictureBox1.Location = new Point(701, 27);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(462, 231);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 37;
             pictureBox1.TabStop = false;
             // 
@@ -352,31 +352,6 @@
             dataGridView.TabIndex = 0;
             dataGridView.CellFormatting += dataGridView_CellFormatting;
             // 
-            // danhSachVatTuBindingSource
-            // 
-            danhSachVatTuBindingSource.DataSource = typeof(Data.DanhSachVatTu);
-            // 
-            // vatTuBindingSource
-            // 
-            vatTuBindingSource.DataSource = typeof(Data.VatTu);
-            // 
-            // phanPhoiChiTietBindingSource
-            // 
-            phanPhoiChiTietBindingSource.DataSource = typeof(Data.PhanPhoiChiTiet);
-            // 
-            // phanPhoiBindingSource
-            // 
-            phanPhoiBindingSource.DataSource = typeof(Data.PhanPhoi);
-            // 
-            // chiTietPhanPhoiBindingSource
-            // 
-            chiTietPhanPhoiBindingSource.DataMember = "ChiTietPhanPhoi";
-            chiTietPhanPhoiBindingSource.DataSource = phanPhoiBindingSource;
-            // 
-            // phanPhoiBindingSource1
-            // 
-            phanPhoiBindingSource1.DataSource = typeof(Data.PhanPhoi);
-            // 
             // colID
             // 
             colID.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -384,6 +359,7 @@
             colID.HeaderText = "ID";
             colID.MinimumWidth = 6;
             colID.Name = "colID";
+            colID.Width = 125;
             // 
             // colTenVatTu
             // 
@@ -415,6 +391,31 @@
             HinhAnh.MinimumWidth = 6;
             HinhAnh.Name = "HinhAnh";
             HinhAnh.Width = 223;
+            // 
+            // danhSachVatTuBindingSource
+            // 
+            danhSachVatTuBindingSource.DataSource = typeof(Data.DanhSachVatTu);
+            // 
+            // vatTuBindingSource
+            // 
+            vatTuBindingSource.DataSource = typeof(Data.VatTu);
+            // 
+            // phanPhoiChiTietBindingSource
+            // 
+            phanPhoiChiTietBindingSource.DataSource = typeof(Data.PhanPhoiChiTiet);
+            // 
+            // phanPhoiBindingSource
+            // 
+            phanPhoiBindingSource.DataSource = typeof(Data.PhanPhoi);
+            // 
+            // chiTietPhanPhoiBindingSource
+            // 
+            chiTietPhanPhoiBindingSource.DataMember = "ChiTietPhanPhoi";
+            chiTietPhanPhoiBindingSource.DataSource = phanPhoiBindingSource;
+            // 
+            // phanPhoiBindingSource1
+            // 
+            phanPhoiBindingSource1.DataSource = typeof(Data.PhanPhoi);
             // 
             // frmVatTu
             // 

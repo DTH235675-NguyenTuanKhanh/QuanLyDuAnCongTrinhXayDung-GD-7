@@ -436,7 +436,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TongChiPhi.Value</Value>
+                              <Value>=Format(Fields!TongChiPhi.Value, "#,##0")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -506,7 +506,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!TongChiPhi.Value)</Value>
+                              <Value>=Format(Sum(Fields!TongChiPhi.Value), "#,##0")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -556,7 +556,7 @@
         </TablixRowHierarchy>
         <DataSetName>DanhSachChiPhi</DataSetName>
         <Top>2.69467cm</Top>
-        <Height>2.98533cm</Height>
+        <Height>2.98534cm</Height>
         <Width>16.7615cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -597,6 +597,10 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="PhanPhoiID">
           <DataField>PhanPhoiID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>

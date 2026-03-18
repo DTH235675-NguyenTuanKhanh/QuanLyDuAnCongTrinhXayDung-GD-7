@@ -78,8 +78,8 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
                                   ? r.PhanPhoi.DuAn.TenDuAn
                                   : "Chưa gán dự án",
                         SoLuong = r.SoLuong,
-                        DonGia = r.DonGia,
-                        TongChiPhi = r.TongChiPhi
+                        DonGia = r.VatTu.DonGia,
+                        TongChiPhi = r.VatTu.DonGia * r.SoLuong
                     }).ToList();
 
                 phanPhoiChiTiet = new BindingList<DanhSachPhanPhoiChiTiet>(query);
@@ -147,7 +147,7 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
             {
                 // Lấy mã vật tư từ dòng đang chọn để xóa trong BindingList
                 // Lưu ý: Đảm bảo DataPropertyName của cột ID Vật tư là "VatTuID"
-                int maVT = Convert.ToInt32(dataGridView.CurrentRow.Cells["VatTuID"].Value);
+                int maVT = Convert.ToInt32(dataGridView.CurrentRow.Cells["colVatTuID"].Value);
                 var item = phanPhoiChiTiet.FirstOrDefault(x => x.VatTuID == maVT);
 
                 if (item != null)
@@ -232,14 +232,13 @@ namespace QuanLyDuAnCongTrinhXayDung.Forms
 
         private void cboVatTu_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboVatTu.SelectedValue != null && int.TryParse(cboVatTu.SelectedValue.ToString(), out int maVT))
+            if (cboVatTu.SelectedItem is VatTu vt)
             {
-                var vt = context.VatTu.Find(maVT);
-                if (vt != null)
-                {
-                    numDonGia.Value = vt.DonGia;
-                    TinhTongChiPhiHienThoi();
-                }
+                // 2. Gán trực tiếp DonGia từ đối tượng vào NumericUpDown
+                numDonGia.Value = vt.DonGia;
+
+                // 3. Tính toán lại tổng chi phí
+                TinhTongChiPhiHienThoi();
             }
         }
 

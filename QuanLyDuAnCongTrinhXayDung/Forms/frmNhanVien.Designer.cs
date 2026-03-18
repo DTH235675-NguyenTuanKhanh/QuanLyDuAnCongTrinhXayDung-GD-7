@@ -63,7 +63,6 @@
             pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dgvNhanVien = new DataGridView();
-            nhanVienBindingSource = new BindingSource(components);
             STT = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             HoVaTen = new DataGridViewTextBoxColumn();
@@ -74,6 +73,7 @@
             LuongCoBan = new DataGridViewTextBoxColumn();
             ChuyenMon = new DataGridViewTextBoxColumn();
             QuyenHan = new DataGridViewTextBoxColumn();
+            nhanVienBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
@@ -381,7 +381,7 @@
             pictureBox1.Location = new Point(775, 27);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(468, 231);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 36;
             pictureBox1.TabStop = false;
             // 
@@ -432,10 +432,6 @@
             dgvNhanVien.Size = new Size(1259, 435);
             dgvNhanVien.TabIndex = 0;
             dgvNhanVien.CellContentClick += dgvNhanVien_CellContentClick;
-            // 
-            // nhanVienBindingSource
-            // 
-            nhanVienBindingSource.DataSource = typeof(Data.NhanVien);
             // 
             // STT
             // 
@@ -521,6 +517,10 @@
             QuyenHan.HeaderText = "Quyền Hạn";
             QuyenHan.MinimumWidth = 6;
             QuyenHan.Name = "QuyenHan";
+            // 
+            // nhanVienBindingSource
+            // 
+            nhanVienBindingSource.DataSource = typeof(Data.NhanVien);
             // 
             // frmNhanVien
             // 

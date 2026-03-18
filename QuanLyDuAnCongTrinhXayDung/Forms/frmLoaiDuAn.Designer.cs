@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoaiDuAn));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoaiDuAn));
             groupBox1 = new GroupBox();
             btnNhap = new Button();
             btnThoat = new Button();
@@ -44,6 +44,7 @@
             btnThem = new Button();
             txtTenLoaiDuAn = new TextBox();
             label2 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
@@ -52,15 +53,14 @@
             vatTuChiTietBindingSource = new BindingSource(components);
             khoiTaoMoiBindingSource = new BindingSource(components);
             khoiTaoBindingSource = new BindingSource(components);
-            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)loaiDuAnBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)vatTuChiTietBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoMoiBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -212,6 +212,17 @@
             label2.Text = "Tên Loại Dự Án(*): ";
             label2.Click += label2_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(894, 19);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(350, 179);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 35;
+            pictureBox1.TabStop = false;
+            // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -277,20 +288,6 @@
             // 
             loaiDuAnBindingSource.DataSource = typeof(Data.LoaiDuAn);
             // 
-            // khoiTaoBindingSource
-            // 
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(940, 19);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(304, 179);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 35;
-            pictureBox1.TabStop = false;
-            // 
             // frmLoaiDuAn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -305,13 +302,13 @@
             Load += frmLoaiDuAn_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)loaiDuAnBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)vatTuChiTietBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoMoiBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)khoiTaoBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 

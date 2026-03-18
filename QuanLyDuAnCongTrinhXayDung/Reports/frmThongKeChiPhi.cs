@@ -28,10 +28,11 @@ namespace QuanLyDuAnCongTrinhXayDung.Reports
                 var query = context.PhanPhoiChiTiet.Select(r => new DanhSachPhanPhoiChiTiet
                 {
                     ID = r.ID,
+                    PhanPhoiID = r.PhanPhoiID,
                     TenVatTu = r.VatTu.TenVatTu,
                     SoLuong = r.SoLuong,
-                    DonGia = r.DonGia,
-                    TongChiPhi = r.TongChiPhi,
+                    DonGia = r.VatTu.DonGia,
+                    TongChiPhi = r.SoLuong*r.VatTu.DonGia,
                     // Nếu DataSet của bạn có cột Dự án hoặc Ngày, hãy thêm vào đây
                     TenDuAn = r.PhanPhoi.DuAn.TenDuAn,
                 }).ToList();
@@ -40,17 +41,20 @@ namespace QuanLyDuAnCongTrinhXayDung.Reports
                 danhSachChiPhiDataTable.Clear();
 
                 // 3. Nạp dữ liệu vào DataTable
-                foreach (var item in query)
+                foreach (var row in query)
                 {
                     // LƯU Ý: Bạn phải truyền ĐỦ tham số mà DataTable yêu cầu
                     // Chuột phải vào AddDanhSachChiPhiRow -> Go to Definition để xem thứ tự cột
-                    danhSachChiPhiDataTable.Rows.Add(
-                        item.ID,
-                        item.TenVatTu, 
-                        item.SoLuong,  
-                        item.DonGia,
-                        item.TenDuAn,   
-                        item.TongChiPhi
+                    danhSachChiPhiDataTable.AddDanhSachChiPhiRow(
+                        row.ID,
+                        row.PhanPhoiID,
+                        row.TenVatTu,                        
+                        row.SoLuong,
+                        row.DonGia,
+                        row.TenDuAn,
+                        row.TongChiPhi
+                        
+
                     );
                 }
 

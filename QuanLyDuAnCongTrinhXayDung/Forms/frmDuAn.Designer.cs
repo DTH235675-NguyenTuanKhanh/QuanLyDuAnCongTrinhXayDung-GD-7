@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDuAn));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDuAn));
             groupBox1 = new GroupBox();
             dtpNgayKetThuc = new DateTimePicker();
             dtpNgayBatDau = new DateTimePicker();
@@ -58,6 +58,7 @@
             label2 = new Label();
             txtTenDuAn = new TextBox();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
@@ -70,12 +71,11 @@
             NgayKetThuc = new DataGridViewTextBoxColumn();
             NganSach = new DataGridViewTextBoxColumn();
             duAnBindingSource = new BindingSource(components);
-            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)duAnBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -360,6 +360,17 @@
             label1.TabIndex = 0;
             label1.Text = "Tên dự án: ";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(909, 21);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(402, 231);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 35;
+            pictureBox1.TabStop = false;
+            // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -476,17 +487,6 @@
             // 
             duAnBindingSource.DataSource = typeof(Data.DuAn);
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(909, 21);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(402, 231);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 35;
-            pictureBox1.TabStop = false;
-            // 
             // frmDuAn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -501,10 +501,10 @@
             Load += frmDuAn_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)duAnBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 

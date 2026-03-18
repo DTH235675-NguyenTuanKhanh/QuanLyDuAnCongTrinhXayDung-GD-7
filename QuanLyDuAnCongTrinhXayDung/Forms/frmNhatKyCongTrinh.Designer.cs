@@ -53,11 +53,11 @@
             pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             dataGridView = new DataGridView();
-            nhatKyCongTrinhBindingSource = new BindingSource(components);
             DuAn = new DataGridViewTextBoxColumn();
             NgayGhi = new DataGridViewTextBoxColumn();
             NoiDungCongViec = new DataGridViewTextBoxColumn();
             GhiChu = new DataGridViewTextBoxColumn();
+            nhatKyCongTrinhBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
@@ -274,7 +274,7 @@
             pictureBox1.Location = new Point(873, 27);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(370, 231);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 36;
             pictureBox1.TabStop = false;
             // 
@@ -322,10 +322,6 @@
             dataGridView.Size = new Size(1253, 382);
             dataGridView.TabIndex = 0;
             // 
-            // nhatKyCongTrinhBindingSource
-            // 
-            nhatKyCongTrinhBindingSource.DataSource = typeof(Data.NhatKyCongTrinh);
-            // 
             // DuAn
             // 
             DuAn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -359,6 +355,10 @@
             GhiChu.HeaderText = "Ghi Chú";
             GhiChu.MinimumWidth = 6;
             GhiChu.Name = "GhiChu";
+            // 
+            // nhatKyCongTrinhBindingSource
+            // 
+            nhatKyCongTrinhBindingSource.DataSource = typeof(Data.NhatKyCongTrinh);
             // 
             // frmNhatKyCongTrinh
             // 

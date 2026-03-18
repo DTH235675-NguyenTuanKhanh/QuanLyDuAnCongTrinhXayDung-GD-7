@@ -105,7 +105,7 @@
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1187, 286);
+            groupBox1.Size = new Size(1187, 275);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin Lương";
@@ -336,10 +336,10 @@
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(695, 33);
+            pictureBox1.Location = new Point(720, 33);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(469, 242);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.Size = new Size(431, 225);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 33;
             pictureBox1.TabStop = false;
             // 
